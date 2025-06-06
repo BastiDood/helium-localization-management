@@ -73,7 +73,9 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-stone-500 dark:text-stone-400">
           <p>&copy; {new Date().getFullYear()} Helium Contractor Assignment. Good luck!</p>
           <div className="mt-1">
-            <a href="#" className="hover:underline mx-2">Documentation (Placeholder)</a>
+            <a href="#" className="hover:underline mx-2">
+              Documentation (Placeholder)
+            </a>
           </div>
         </div>
       </footer>
