@@ -37,7 +37,7 @@ function Content({ projectId, closeDialog }: { projectId: string; closeDialog: (
   );
 
   return (
-    <Form action={action} className="flex flex-col gap-y-4">
+    <Form action={action} className="space-y-4">
       <Input type="text" required name="locale" placeholder="en-US" />
       <div className="flex justify-end">
         {mutation.isPending ? (

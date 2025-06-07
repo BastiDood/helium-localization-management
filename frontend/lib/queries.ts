@@ -53,8 +53,10 @@ export function useCreateProjectKey() {
   const client = useQueryClient();
   return useMutation({
     mutationFn: createProjectKey,
-    onSuccess: async (_, { project_id }) =>
-      await client.invalidateQueries({ queryKey: ["projects", project_id, "keys"] }),
+    onSuccess: async (_, { project_id }) => {
+      // Invalidates keys and locales for the current project
+      await client.invalidateQueries({ queryKey: ["projects", project_id] });
+    },
   });
 }
 

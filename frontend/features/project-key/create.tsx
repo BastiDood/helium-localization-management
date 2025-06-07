@@ -17,22 +17,29 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-import { CreateProjectInput } from "@/lib/api";
-import { useCreateProject } from "@/lib/queries";
+import { CreateProjectKeyInput } from "@/lib/api";
+import { useCreateProjectKey } from "@/lib/queries";
 
-function Content({ closeDialog }: { closeDialog: () => void }) {
-  const mutation = useCreateProject();
+interface ContentProps {
+  id: string;
+  closeDialog: () => void;
+}
+
+function Content({ id, closeDialog }: ContentProps) {
+  const mutation = useCreateProjectKey();
   const action = useCallback(
     async (data: FormData) => {
-      await mutation.mutateAsync(CreateProjectInput.parse(decode(data)));
+      const input = CreateProjectKeyInput.parse(decode(data));
+      await mutation.mutateAsync(input);
       closeDialog();
     },
-    [closeDialog, mutation],
+    [mutation, closeDialog],
   );
 
   return (
     <Form action={action} className="space-y-4">
-      <Input type="text" required name="name" placeholder="My Project" />
+      <input type="hidden" name="project_id" defaultValue={id} />
+      <Input type="text" required name="key" placeholder="button.call-to-action" />
       <div className="flex justify-end">
         {mutation.isPending ? (
           <Button type="button" disabled>
@@ -50,22 +57,27 @@ function Content({ closeDialog }: { closeDialog: () => void }) {
   );
 }
 
-export function CreateProjectButton() {
+interface CreateProjectLocaleTranslationButtonProps {
+  id: string;
+}
+
+export function CreateProjectKeyButton({ id }: CreateProjectLocaleTranslationButtonProps) {
   const [open, setOpen] = useState(false);
   const closeDialog = useCallback(() => setOpen(false), []);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button type="button" variant="outline" size="icon" className="size-6">
+        <Button type="button" variant="outline">
           <Plus />
+          <span>Add Translation Key</span>
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create Project</DialogTitle>
-          <DialogDescription>Enter a new project name to get started.</DialogDescription>
+          <DialogTitle>Create Translation Key</DialogTitle>
+          <DialogDescription>Enter a new translation keyfor the current locale.</DialogDescription>
         </DialogHeader>
-        <Content closeDialog={closeDialog} />
+        <Content id={id} closeDialog={closeDialog} />
       </DialogContent>
     </Dialog>
   );

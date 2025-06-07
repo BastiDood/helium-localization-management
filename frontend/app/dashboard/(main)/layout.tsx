@@ -20,8 +20,9 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
         {/* Sidebar */}
         <aside className="w-1/4 xl:w-1/5 p-4 bg-white dark:bg-stone-800 shadow rounded-lg mr-8 space-y-6">
           <div>
-            <h2 className="flex items-center gap-x-1 text-lg font-semibold mb-3 text-stone-700 dark:text-stone-300">
-              Navigation <CreateProjectButton />
+            <h2 className="flex items-center justify-between gap-x-2 text-lg font-semibold mb-3 text-stone-700 dark:text-stone-300">
+              <span>Navigation</span>
+              <CreateProjectButton />
             </h2>
             <div className="p-3 border border-dashed border-stone-300 dark:border-stone-600 rounded bg-stone-50 dark:bg-stone-700 text-sm text-stone-500 dark:text-stone-400 flex items-center justify-center">
               <ProjectList />
@@ -29,8 +30,9 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
           </div>
           {typeof projectId === "undefined" ? null : (
             <div>
-              <h2 className="flex items-center gap-x-1 text-lg font-semibold mb-3 text-stone-700 dark:text-stone-300">
-                Languages <CreateProjectLocaleButton id={projectId} />
+              <h2 className="flex items-center gap-x-2 justify-between text-lg font-semibold mb-3 text-stone-700 dark:text-stone-300">
+                <span>Languages</span>
+                <CreateProjectLocaleButton id={projectId} />
               </h2>
               <div className="p-3 border border-dashed border-stone-300 dark:border-stone-600 rounded bg-stone-50 dark:bg-stone-700 text-sm text-stone-500 dark:text-stone-400 flex items-center justify-center">
                 <ProjectLocaleList id={projectId} />
