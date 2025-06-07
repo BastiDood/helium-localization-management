@@ -3,7 +3,7 @@ import Form from "next/form";
 import { Loader2, SquarePen } from "lucide-react";
 import { decode } from "decode-formdata";
 import { toast } from "sonner";
-import { useCallback, useMemo, useTransition } from "react";
+import { useCallback, useMemo } from "react";
 import { useStore } from "zustand";
 
 import { Button } from "@/components/ui/button";
@@ -14,11 +14,11 @@ import { useUpsertProjectLocaleTranslation } from "@/lib/queries";
 import { useEditorStore } from "./context";
 
 interface EditorFormProps {
-  projectId: string;
+  id: string;
   locale: string;
 }
 
-export function SaveEditorButton({ projectId, locale }: EditorFormProps) {
+export function SaveEditorButton({ id, locale }: EditorFormProps) {
   const mutation = useUpsertProjectLocaleTranslation();
   const action = useCallback(
     async (data: FormData) => {
@@ -32,18 +32,18 @@ export function SaveEditorButton({ projectId, locale }: EditorFormProps) {
     [mutation],
   );
 
-  const translations = useStore(useEditorStore(), ({ translations }) => translations);
+  const edits = useStore(useEditorStore(), ({ edits: translations }) => translations);
   const children = useMemo(
     () =>
-      Array.from(translations.entries(), ([key, value]) => (
-        <input type="hidden" name={`data[${key}].translation`} defaultValue={value} />
+      Array.from(edits.entries(), ([key, value]) => (
+        <input key={key} type="hidden" name={`data[${key}].translation`} defaultValue={value} />
       )),
-    [translations],
+    [edits],
   );
 
   return (
     <Form action={action}>
-      <input type="hidden" name="project_id" defaultValue={projectId} />
+      <input type="hidden" name="project_id" defaultValue={id} />
       <input type="hidden" name="project_locale" defaultValue={locale} />
       {children}
       {mutation.isPending ? (
@@ -52,7 +52,7 @@ export function SaveEditorButton({ projectId, locale }: EditorFormProps) {
           <span>Save</span>
         </Button>
       ) : (
-        <Button type="submit" disabled={translations.size === 0}>
+        <Button type="submit" disabled={edits.size === 0}>
           <SquarePen />
           <span>Save</span>
         </Button>
