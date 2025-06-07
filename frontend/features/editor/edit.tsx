@@ -1,4 +1,5 @@
 import { type FormEvent, useMemo, useCallback } from "react";
+import { useFuzzySearchList } from "@nozbe/microfuzz/react";
 import { useStore } from "zustand";
 
 import { Label } from "@/components/ui/label";
@@ -8,7 +9,7 @@ import { useProjectKeys } from "@/lib/queries";
 
 import type { ProjectKey, ProjectTranslation } from "@/lib/model";
 
-import { useEditorStore } from "./context";
+import { useEditorStore, useSearchStore } from "./context";
 
 type Registry = Map<ProjectTranslation["project_key"], ProjectTranslation["translation"]>;
 
@@ -32,7 +33,13 @@ function TranslationInput({ projectKey, value, onTranslationChange }: Translatio
   );
 }
 
-TranslationInput.displayName = "TranslationInput";
+function getText({ key }: ProjectKey) {
+  return [key];
+}
+
+function mapResultItem({ item }: { item: ProjectKey }) {
+  return item;
+}
 
 interface InnerProps {
   keys: ProjectKey[];
@@ -40,12 +47,16 @@ interface InnerProps {
 }
 
 function Inner({ keys, registry }: InnerProps) {
+  const query = useStore(useSearchStore(), ({ query }) => query);
+  const filtered = useFuzzySearchList({ list: keys, queryText: query, getText, mapResultItem });
+  const rendered = query.length === 0 ? keys : filtered;
+
   const edits = useStore(useEditorStore(), ({ edits }) => edits);
   const setTranslation = useStore(useEditorStore(), ({ setTranslation }) => setTranslation);
 
   const translationInputs = useMemo(
     () =>
-      keys.map(({ key }) => {
+      rendered.map(({ key }) => {
         const value = edits.get(key) ?? registry.get(key) ?? "";
         return (
           <TranslationInput
@@ -56,7 +67,7 @@ function Inner({ keys, registry }: InnerProps) {
           />
         );
       }),
-    [keys, registry, edits, setTranslation],
+    [rendered, registry, edits, setTranslation],
   );
 
   return <div className="space-y-4">{translationInputs}</div>;
