@@ -1,7 +1,7 @@
 export default async function Home({
   params,
 }: Readonly<{
-  params: Promise<Partial<{ projectId: string; locale: string }>>;
+  params: Promise<{ projectId: string; locale: string }>;
 }>) {
   const { projectId, locale } = await params;
   return (

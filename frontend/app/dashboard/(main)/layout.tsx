@@ -6,7 +6,9 @@ import { useParams } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { CreateProjectButton } from "@/features/project/create";
+import { CreateProjectLocaleButton } from "@/features/project-locale/create";
 import { ProjectList } from "@/features/project/list";
+import { ProjectLocaleList } from "@/features/project-locale/list";
 
 const client = new QueryClient({ defaultOptions: { queries: { staleTime: Infinity } } });
 
@@ -27,12 +29,11 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
           </div>
           {typeof projectId === "undefined" ? null : (
             <div>
-              <h2 className="text-lg font-semibold mb-3 text-stone-700 dark:text-stone-300">
-                Languages
+              <h2 className="flex items-center gap-x-1 text-lg font-semibold mb-3 text-stone-700 dark:text-stone-300">
+                Languages <CreateProjectLocaleButton id={projectId} />
               </h2>
-              {/* // TODO: Implement Language Selector Component */}
               <div className="p-3 border border-dashed border-stone-300 dark:border-stone-600 rounded bg-stone-50 dark:bg-stone-700 text-sm text-stone-500 dark:text-stone-400 flex items-center justify-center">
-                [Language Selection Area]
+                <ProjectLocaleList id={projectId} />
               </div>
             </div>
           )}
