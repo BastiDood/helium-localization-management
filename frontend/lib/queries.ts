@@ -37,8 +37,8 @@ export function useCreateProjectLocale() {
   const client = useQueryClient();
   return useMutation({
     mutationFn: createProjectLocale,
-    onSuccess: async (_, { projectId }) =>
-      await client.invalidateQueries({ queryKey: ["projects", projectId, "locales"] }),
+    onSuccess: async (_, { project_id }) =>
+      await client.invalidateQueries({ queryKey: ["projects", project_id, "locales"] }),
   });
 }
 
@@ -53,15 +53,15 @@ export function useCreateProjectKey() {
   const client = useQueryClient();
   return useMutation({
     mutationFn: createProjectKey,
-    onSuccess: async (_, { projectId }) =>
-      await client.invalidateQueries({ queryKey: ["projects", projectId, "keys"] }),
+    onSuccess: async (_, { project_id }) =>
+      await client.invalidateQueries({ queryKey: ["projects", project_id, "keys"] }),
   });
 }
 
-export function useProjectLocaleTranslations(projectId: string, projectLocaleId: string) {
+export function useProjectLocaleTranslations(id: string, locale: string) {
   return useQuery({
-    queryKey: ["projects", projectId, "locales", projectLocaleId, "translations"],
-    queryFn: fetchProjectLocaleTranslations.bind(null, projectLocaleId),
+    queryKey: ["projects", id, "locales", locale, "translations"],
+    queryFn: fetchProjectLocaleTranslations.bind(null, id, locale),
   });
 }
 
@@ -69,9 +69,9 @@ export function useUpsertProjectLocaleTranslation() {
   const client = useQueryClient();
   return useMutation({
     mutationFn: upsertProjectLocaleTranslation,
-    onSuccess: async ({ projectId }, { projectLocaleId }) =>
+    onSuccess: async (_, { project_id, project_locale }) =>
       await client.invalidateQueries({
-        queryKey: ["projects", projectId, "locales", projectLocaleId, "translations"],
+        queryKey: ["projects", project_id, "locales", project_locale, "translations"],
       }),
   });
 }
