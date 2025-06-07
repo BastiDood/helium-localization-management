@@ -44,7 +44,10 @@ export function SaveEditorButton({ id, locale }: EditorFormProps) {
         }),
         {
           loading: "Saving translations...",
-          success: updates => `${updates.length} translations saved successfully!`,
+          success: updates => {
+            const noun = updates.length === 1 ? "translation" : "translations";
+            return `${updates.length} ${noun} saved successfully!`;
+          },
           error: "Failed to save translations.",
         },
       );
