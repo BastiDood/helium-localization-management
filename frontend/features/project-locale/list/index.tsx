@@ -1,8 +1,8 @@
 "use client";
 
-import { CircleX, Loader2 } from "lucide-react";
-
 import Link from "next/link";
+
+import { CircleX, Loader2 } from "lucide-react";
 
 import { useProjectLocales } from "@/lib/queries";
 
@@ -25,7 +25,6 @@ export function ProjectLocaleList({ id: projectId }: ProjectLocaleListProps) {
     return (
       <div className="flex items-center gap-x-2">
         <CircleX />
-        <span>Error</span>
       </div>
     );
   }
