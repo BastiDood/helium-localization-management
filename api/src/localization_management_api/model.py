@@ -1,6 +1,6 @@
 from typing import Dict
 
-from pydantic import BaseModel, RootModel
+from pydantic import BaseModel
 
 
 class CreateProject(BaseModel):
@@ -15,4 +15,4 @@ class CreateProjectKey(BaseModel):
     key: str
 
 
-class CreateProjectTranslation(RootModel[Dict[str, str]]): ...
+CreateProjectTranslation = Dict[str, str]

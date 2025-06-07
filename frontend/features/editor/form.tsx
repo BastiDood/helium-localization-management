@@ -1,14 +1,14 @@
 import Form from "next/form";
 
+import { Fragment, useCallback, useMemo } from "react";
 import { Loader2, SquarePen } from "lucide-react";
 import { decode } from "decode-formdata";
 import { toast } from "sonner";
-import { useCallback, useMemo } from "react";
 import { useStore } from "zustand";
 
 import { Button } from "@/components/ui/button";
 
-import { UpsertProjectLocaleTranslationInput } from "@/lib/api";
+import { ProjectTranslation } from "@/lib/model";
 import { useUpsertProjectLocaleTranslation } from "@/lib/queries";
 
 import { useEditorStore } from "./context";
@@ -18,16 +18,36 @@ interface EditorFormProps {
   locale: string;
 }
 
+const ProjectTranslationInput = ProjectTranslation.pick({
+  project_id: true,
+  project_locale: true,
+}).extend({
+  data: ProjectTranslation.pick({ project_key: true, translation: true }).array(),
+});
+
 export function SaveEditorButton({ id, locale }: EditorFormProps) {
   const mutation = useUpsertProjectLocaleTranslation();
   const action = useCallback(
     async (data: FormData) => {
-      const input = UpsertProjectLocaleTranslationInput.parse(decode(data));
-      toast.promise(mutation.mutateAsync(input), {
-        loading: "Saving translations...",
-        success: updates => `${updates.length} translations saved successfully!`,
-        error: "Failed to save translations.",
-      });
+      const {
+        project_id,
+        project_locale,
+        data: rows,
+      } = ProjectTranslationInput.parse(decode(data));
+      toast.promise(
+        mutation.mutateAsync({
+          project_id,
+          project_locale,
+          data: Object.fromEntries(
+            rows.map(({ project_key, translation }) => [project_key, translation]),
+          ),
+        }),
+        {
+          loading: "Saving translations...",
+          success: updates => `${updates.length} translations saved successfully!`,
+          error: "Failed to save translations.",
+        },
+      );
     },
     [mutation],
   );
@@ -35,8 +55,11 @@ export function SaveEditorButton({ id, locale }: EditorFormProps) {
   const edits = useStore(useEditorStore(), ({ edits: translations }) => translations);
   const children = useMemo(
     () =>
-      Array.from(edits.entries(), ([key, value]) => (
-        <input key={key} type="hidden" name={`data[${key}].translation`} defaultValue={value} />
+      Array.from(edits.entries(), ([key, value], index) => (
+        <Fragment key={key}>
+          <input type="hidden" name={`data[${index}].project_key`} defaultValue={key} />
+          <input type="hidden" name={`data[${index}].translation`} defaultValue={value} />
+        </Fragment>
       )),
     [edits],
   );

@@ -34,7 +34,6 @@ async function post<S extends ZodType>(schema: S, path: string, body?: BodyInit)
   // TODO: Handle errors.
 
   const json = await response.json();
-  console.dir(json, { depth: null });
   return schema.parse(json);
 }
 

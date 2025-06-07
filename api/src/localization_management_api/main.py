@@ -120,7 +120,7 @@ async def bulk_upsert_project_translation(
                     "project_key": key,
                     "translation": translation,
                 }
-                for key, translation in dict(translations).items()
+                for key, translation in translations.items()
             ],
             default_to_null=False,
         )
