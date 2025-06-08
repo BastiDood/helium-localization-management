@@ -1,9 +1,10 @@
 import { type ZodType, z } from "zod/v4";
 
+import { API_ORIGIN } from "./env";
 import { Project, ProjectKey, ProjectLocale, ProjectTranslation } from "./model";
 
 async function get<S extends ZodType>(schema: S, path: string) {
-  const url = new URL("http://localhost:8000");
+  const url = new URL(API_ORIGIN);
   url.pathname = path;
 
   const response = await fetch(url, {
@@ -18,7 +19,7 @@ async function get<S extends ZodType>(schema: S, path: string) {
 }
 
 async function post<S extends ZodType>(schema: S, path: string, body?: BodyInit) {
-  const url = new URL("http://localhost:8000");
+  const url = new URL(API_ORIGIN);
   url.pathname = path;
 
   const response = await fetch(url, {
