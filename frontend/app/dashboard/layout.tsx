@@ -12,12 +12,6 @@ export default function Layout({ children }: { children: ReactNode }) {
                 Helium
               </span>
             </div>
-            <nav className="flex items-center space-x-4">
-              {/* // TODO: Implement User Profile / Authentication Status */}
-              <div className="text-sm p-2 border border-dashed border-stone-300 dark:border-stone-600 rounded-md text-stone-500 dark:text-stone-400">
-                [User Profile Placeholder]
-              </div>
-            </nav>
           </div>
         </div>
       </header>
