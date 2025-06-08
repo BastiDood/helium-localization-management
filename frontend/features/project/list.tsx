@@ -16,17 +16,15 @@ interface Project {
 interface NavigationListProps {
   data: Pick<Project, "id" | "name">[];
   currentProjectId?: string;
-  currentLocale?: string;
 }
 
-export function NavigationList({ data, currentProjectId, currentLocale }: NavigationListProps) {
-  const suffix = typeof currentLocale === "undefined" ? "" : `/${currentLocale}`;
+export function NavigationList({ data, currentProjectId }: NavigationListProps) {
   const children = useMemo(
     () =>
       data.map(({ id, name }) => (
         <li key={id} className="contents">
           <Link
-            href={`/dashboard/${id}${suffix}`}
+            href={`/dashboard/${id}`}
             title={name}
             className={`
               block px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200
@@ -42,7 +40,7 @@ export function NavigationList({ data, currentProjectId, currentLocale }: Naviga
           </Link>
         </li>
       )),
-    [suffix, currentProjectId, data],
+    [currentProjectId, data],
   );
   return (
     <nav className="contents">
@@ -52,11 +50,10 @@ export function NavigationList({ data, currentProjectId, currentLocale }: Naviga
 }
 
 interface ProjectListProps {
-  id: string;
-  locale?: string;
+  id?: string;
 }
 
-export function ProjectList({ id, locale }: ProjectListProps) {
+export function ProjectList({ id }: ProjectListProps) {
   const { data, isPending, isError } = useProjects();
 
   if (isPending) {
@@ -79,5 +76,5 @@ export function ProjectList({ id, locale }: ProjectListProps) {
     return <div className="flex items-center justify-center text-sm">No projects found.</div>;
   }
 
-  return <NavigationList data={data} currentProjectId={id} currentLocale={locale} />;
+  return <NavigationList data={data} currentProjectId={id} />;
 }
