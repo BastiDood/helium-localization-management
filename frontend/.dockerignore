@@ -1,0 +1,7 @@
+.env
+.next
+
+node_modules
+
+fly.toml
+next-env.d.ts
