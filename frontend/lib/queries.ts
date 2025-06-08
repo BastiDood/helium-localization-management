@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  type NotifyOnChangeProps,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 import {
   createProject,
@@ -42,10 +47,11 @@ export function useCreateProjectLocale() {
   });
 }
 
-export function useProjectKeys(projectId: string) {
+export function useProjectKeys(projectId: string, deps?: NotifyOnChangeProps) {
   return useQuery({
     queryKey: ["projects", projectId, "keys"],
     queryFn: fetchProjectKeys.bind(null, projectId),
+    notifyOnChangeProps: deps,
   });
 }
 

@@ -1,3 +1,4 @@
+import { CircleX, Loader2 } from "lucide-react";
 import { type FormEvent, useMemo, useCallback } from "react";
 import { useFuzzySearchList } from "@nozbe/microfuzz/react";
 import { useStore } from "zustand";
@@ -85,8 +86,20 @@ export function TranslationEditor({ id, translations }: EditTranslationsProps) {
   );
 
   const { data: keys, isPending, isError } = useProjectKeys(id);
-  if (isPending) return "Fetching translations...";
-  if (isError) return "Could not fetch translations.";
+
+  if (isPending)
+    return (
+      <div className="grow flex items-center justify-center">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
+
+  if (isError)
+    return (
+      <div className="grow flex items-center justify-center">
+        <CircleX />
+      </div>
+    );
 
   return <Inner keys={keys} registry={registry} />;
 }

@@ -16,7 +16,7 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
   const { projectId } = useParams<Partial<{ projectId: string }>>();
   return (
     <QueryClientProvider client={client}>
-      <div className="flex flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Sidebar */}
         <aside className="w-1/4 xl:w-1/5 p-4 bg-white dark:bg-stone-800 shadow rounded-lg mr-8 space-y-6">
           <div>
