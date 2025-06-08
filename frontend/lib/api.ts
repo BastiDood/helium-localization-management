@@ -9,7 +9,7 @@ async function get<S extends ZodType>(schema: S, path: string) {
 
   const response = await fetch(url, {
     method: "GET",
-    credentials: "include",
+    credentials: "omit",
   });
 
   const json = await response.json();
@@ -27,7 +27,7 @@ async function post<S extends ZodType>(schema: S, path: string, body?: BodyInit)
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    credentials: "include",
+    credentials: "omit",
   });
 
   if (response.ok) {
