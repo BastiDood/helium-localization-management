@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useMemo } from "react";
 
 import { CircleX, Loader2 } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useMemo } from "react";
 
 import { cn } from "@/lib/utils";
 import { useProjectLocales } from "@/lib/queries";
@@ -15,11 +15,11 @@ interface ProjectLocale {
 }
 
 interface NavigationListProps {
-  data: ProjectLocale[];
+  data: Pick<ProjectLocale, "locale" | "project_id">[];
   currentLocale?: string;
 }
 
-function NavigationList({ data, currentLocale }: NavigationListProps) {
+export function NavigationList({ data, currentLocale }: NavigationListProps) {
   const children = useMemo(
     () =>
       data.map(({ locale, project_id }) => (

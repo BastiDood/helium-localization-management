@@ -68,7 +68,7 @@ export function SaveEditorButton({ id, locale }: EditorFormProps) {
   );
 
   return (
-    <Form action={action}>
+    <Form action={action} aria-label="Save Translations">
       <input type="hidden" name="project_id" defaultValue={id} />
       <input type="hidden" name="project_locale" defaultValue={locale} />
       {children}

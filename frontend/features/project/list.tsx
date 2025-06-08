@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useMemo } from "react";
 
 import { CircleX, Loader2 } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useMemo } from "react";
 
 import { useProjects } from "@/lib/queries";
 
@@ -14,11 +14,11 @@ interface Project {
 }
 
 interface NavigationListProps {
-  data: Project[];
+  data: Pick<Project, "id" | "name">[];
   currentProjectId?: string;
 }
 
-function NavigationList({ data, currentProjectId }: NavigationListProps) {
+export function NavigationList({ data, currentProjectId }: NavigationListProps) {
   const children = useMemo(
     () =>
       data.map(({ id, name }) => (

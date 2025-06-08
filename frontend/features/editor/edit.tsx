@@ -12,8 +12,6 @@ import type { ProjectKey, ProjectTranslation } from "@/lib/model";
 
 import { useEditorStore, useSearchStore } from "./context";
 
-type Registry = Map<ProjectTranslation["project_key"], ProjectTranslation["translation"]>;
-
 interface TranslationInputProps {
   projectKey: string;
   value: string;
@@ -37,20 +35,23 @@ function TranslationInput({ projectKey, value, onTranslationChange }: Translatio
   );
 }
 
-function getText({ key }: ProjectKey) {
+type Entry = Pick<ProjectKey, "key">;
+
+function getText({ key }: Entry) {
   return [key];
 }
 
-function mapResultItem({ item }: { item: ProjectKey }) {
+function mapResultItem({ item }: { item: Entry }) {
   return item;
 }
 
+type Registry = Map<ProjectTranslation["project_key"], ProjectTranslation["translation"]>;
 interface InnerProps {
-  keys: ProjectKey[];
+  keys: Entry[];
   registry: Registry;
 }
 
-function Inner({ keys, registry }: InnerProps) {
+export function TranslationEditorContent({ keys, registry }: InnerProps) {
   const query = useStore(useSearchStore(), ({ query }) => query);
   const filtered = useFuzzySearchList({ list: keys, queryText: query, getText, mapResultItem });
   const rendered = query.length === 0 ? keys : filtered;
@@ -104,5 +105,5 @@ export function TranslationEditor({ id, translations }: EditTranslationsProps) {
       </div>
     );
 
-  return <Inner keys={keys} registry={registry} />;
+  return <TranslationEditorContent keys={keys} registry={registry} />;
 }

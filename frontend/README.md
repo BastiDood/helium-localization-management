@@ -11,6 +11,9 @@ This project uses `pnpm` as the package manager. This should be handled by [`cor
 # Install project dependencies.
 pnpm install
 
+# Run the basic unit tests in watch mode.
+pnpm test
+
 # Start the Next.js Turbopack dev server at http://localhost:3000/.
 pnpm dev
 ```
