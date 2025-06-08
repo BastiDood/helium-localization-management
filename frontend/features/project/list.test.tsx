@@ -41,3 +41,15 @@ test("renders multiple projects", async () => {
   expect(screen.getByText(name1)).toBeDefined();
   expect(screen.getByText(name2)).toBeDefined();
 });
+
+test("renders project links with locale suffix when currentLocale is provided", async () => {
+  const id = crypto.randomUUID();
+  const name = "Test Project";
+  const locale = "en-US";
+
+  const screen = render(<NavigationList data={[{ id, name }]} currentLocale={locale} />);
+  expect(screen.getByText(name)).toBeDefined();
+
+  const link = await screen.findByRole("link");
+  expect(link.getAttribute("href")).toBe(`/dashboard/${id}/${locale}`);
+});
