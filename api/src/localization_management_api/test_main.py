@@ -11,10 +11,10 @@ def test_invalid_paths():
     assert client.get("/api").status_code == 404
 
 
-def end_to_end():
+def test_end_to_end():
     # Project creation
     project_creation_response = client.post(
-        "/api/projects", json={"name": "Just Another Test"}
+        "/api/projects", json={"name": "Cool Project"}
     )
     assert project_creation_response.status_code == 201
 
@@ -26,30 +26,34 @@ def end_to_end():
 
     # Locale creation with duplicate check
     locale_creation_response = client.post(
-        f"/api/projects/{project_id}/locales", json={"name": "en"}
+        f"/api/projects/{project_id}/locales",
+        json={"locale": "en"},
     )
     assert locale_creation_response.status_code == 201
     assert (
         client.post(
-            f"/api/projects/{project_id}/locales", json={"name": "en"}
+            f"/api/projects/{project_id}/locales",
+            json={"locale": "en"},
         ).status_code
         == 409
     )
 
     # Key creation with duplicate check
     key_creation_response = client.post(
-        f"/api/projects/{project_id}/keys", json={"name": "test"}
+        f"/api/projects/{project_id}/keys",
+        json={"key": "test"},
     )
     assert key_creation_response.status_code == 201
     assert (
         client.post(
-            f"/api/projects/{project_id}/keys", json={"name": "test"}
+            f"/api/projects/{project_id}/keys", json={"key": "test"}
         ).status_code
         == 409
     )
 
     # Translation creation
     translation_creation_response = client.post(
-        f"/api/projects/{project_id}/locales/en/translations", json={"en": "test"}
+        f"/api/projects/{project_id}/locales/en/translations",
+        json={"test": "Hello world!"},
     )
-    assert translation_creation_response.status_code == 201
+    assert translation_creation_response.status_code == 200
