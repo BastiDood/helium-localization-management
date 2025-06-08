@@ -88,11 +88,13 @@ export async function upsertProjectLocaleTranslation({
   project_locale,
   data,
 }: z.infer<typeof UpsertProjectLocaleTranslationInput>) {
-  return await post(
+  const result = await post(
     ProjectTranslations,
     `/api/projects/${project_id}/locales/${project_locale}/translations`,
     JSON.stringify(data),
   );
+  if (result === null) throw new Error("unexpected upsert failure");
+  return result;
 }
 
 export async function fetchProjectLocaleTranslations(id: string, locale: string) {
