@@ -18,29 +18,25 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
     <QueryClientProvider client={client}>
       <div className="flex grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Sidebar */}
-        <aside className="w-64 flex-shrink-0 p-4 bg-white dark:bg-stone-800 shadow rounded-lg mr-8 space-y-3 h-fit overflow-hidden">
-          <div className="min-w-0">
+        <aside className="w-64 flex-shrink-0 p-4 bg-white dark:bg-stone-800 shadow rounded-lg mr-8 space-y-3 overflow-hidden">
+          <div>
             <h2 className="flex items-center justify-between gap-x-2 text-lg font-semibold mb-3 text-stone-700 dark:text-stone-300 min-w-0">
               <span className="truncate">Projects</span>
               <CreateProjectButton />
             </h2>
-            <div className="min-w-0">
-              <ProjectList />
-            </div>
+            <ProjectList />
           </div>
           {typeof projectId === "undefined" ? null : (
-            <div className="min-w-0">
+            <div>
               <h2 className="flex items-center gap-x-2 justify-between text-lg font-semibold mb-3 text-stone-700 dark:text-stone-300 min-w-0">
                 <span className="truncate">Languages</span>
                 <CreateProjectLocaleButton id={projectId} />
               </h2>
-              <div className="min-w-0">
-                <ProjectLocaleList id={projectId} />
-              </div>
+              <ProjectLocaleList id={projectId} />
             </div>
           )}
         </aside>
-        <main className="flex-1 min-w-0">{children}</main>
+        {children}
       </div>
     </QueryClientProvider>
   );

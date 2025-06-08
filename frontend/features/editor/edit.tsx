@@ -1,4 +1,4 @@
-import { CircleX, Loader2 } from "lucide-react";
+import { CircleX, Edit3, Loader2 } from "lucide-react";
 import { type FormEvent, useMemo, useCallback } from "react";
 import { useFuzzySearchList } from "@nozbe/microfuzz/react";
 import { useStore } from "zustand";
@@ -28,7 +28,10 @@ function TranslationInput({ projectKey, value, onTranslationChange }: Translatio
   );
   return (
     <Label className="flex-col items-start">
-      <code>{projectKey}</code>
+      <div className="flex items-center gap-x-2">
+        <Edit3 />
+        <code>{projectKey}</code>
+      </div>
       <Textarea value={value} onInput={handleInput} />
     </Label>
   );
