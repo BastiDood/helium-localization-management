@@ -108,7 +108,7 @@ export function TranslationEditor({ id, translations }: EditTranslationsProps) {
   if (keys.length === 0)
     return (
       <div className="grow flex items-center justify-center">
-        <p>Get started by adding a new translation key.</p>
+        Get started by adding a new translation key.
       </div>
     );
 
