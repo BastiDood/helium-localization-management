@@ -16,15 +16,17 @@ interface Project {
 interface NavigationListProps {
   data: Pick<Project, "id" | "name">[];
   currentProjectId?: string;
+  currentLocale?: string;
 }
 
-export function NavigationList({ data, currentProjectId }: NavigationListProps) {
+export function NavigationList({ data, currentProjectId, currentLocale }: NavigationListProps) {
+  const suffix = typeof currentLocale === "undefined" ? "" : `/${currentLocale}`;
   const children = useMemo(
     () =>
       data.map(({ id, name }) => (
         <li key={id} className="contents">
           <Link
-            href={`/dashboard/${id}`}
+            href={`/dashboard/${id}${suffix}`}
             title={name}
             className={`
               block px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200
@@ -40,7 +42,7 @@ export function NavigationList({ data, currentProjectId }: NavigationListProps) 
           </Link>
         </li>
       )),
-    [currentProjectId, data],
+    [suffix, currentProjectId, data],
   );
   return (
     <nav className="contents">
@@ -49,9 +51,13 @@ export function NavigationList({ data, currentProjectId }: NavigationListProps) 
   );
 }
 
-export function ProjectList() {
+interface ProjectListProps {
+  id: string;
+  locale?: string;
+}
+
+export function ProjectList({ id, locale }: ProjectListProps) {
   const { data, isPending, isError } = useProjects();
-  const { projectId } = useParams<Partial<{ projectId: string }>>();
 
   if (isPending) {
     return (
@@ -73,5 +79,5 @@ export function ProjectList() {
     return <div className="flex items-center justify-center text-sm">No projects found.</div>;
   }
 
-  return <NavigationList data={data} currentProjectId={projectId} />;
+  return <NavigationList data={data} currentProjectId={id} currentLocale={locale} />;
 }
