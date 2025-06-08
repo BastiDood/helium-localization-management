@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { type ReactNode, useMemo } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -20,9 +22,14 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-stone-500 dark:text-stone-400">
           <p>&copy; {year} Helium Contractor Assignment. Good luck!</p>
           <div className="mt-1">
-            <a href="#" className="hover:underline mx-2">
-              Documentation (Placeholder)
-            </a>
+            <Link
+              href="https://github.com/BastiDood/helium-localization-management"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline mx-2"
+            >
+              GitHub Repository
+            </Link>
           </div>
         </div>
       </footer>
