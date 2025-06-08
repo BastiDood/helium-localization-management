@@ -27,7 +27,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}>
         {children}
-        <Toaster />
+        <Toaster richColors theme="system" />
       </body>
     </html>
   );

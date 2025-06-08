@@ -4,6 +4,7 @@ import Form from "next/form";
 
 import { Loader2, Plus } from "lucide-react";
 import { decode } from "decode-formdata";
+import { toast } from "sonner";
 import { useCallback, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -24,8 +25,9 @@ function Content({ closeDialog }: { closeDialog: () => void }) {
   const mutation = useCreateProject();
   const action = useCallback(
     async (data: FormData) => {
-      await mutation.mutateAsync(CreateProjectInput.parse(decode(data)));
-      closeDialog();
+      const result = await mutation.mutateAsync(CreateProjectInput.parse(decode(data)));
+      if (result === null) toast.error("Failed to create the project.");
+      else closeDialog();
     },
     [closeDialog, mutation],
   );

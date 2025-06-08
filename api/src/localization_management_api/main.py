@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Response
 from supabase import AsyncClient, create_async_client
 
 from .model import (
@@ -46,17 +46,25 @@ async def create_project_locale(
     locale: CreateProjectLocale,
     id: str,
     supabase: Annotated[AsyncClient, Depends(init_supabase_client)],
+    response: Response,
 ):
     result = (
         await supabase.table("project_locale")
-        .insert(
+        .upsert(
             {
                 "project_id": id,
                 "locale": locale.locale,
-            }
+            },
+            on_conflict="project_id, locale",
+            ignore_duplicates=True,
         )
         .execute()
     )
+
+    if not result.data:
+        response.status_code = 409
+        return
+
     first, *rest = result.data
     assert not rest
     return first
@@ -78,17 +86,25 @@ async def create_project_key(
     key: CreateProjectKey,
     id: str,
     supabase: Annotated[AsyncClient, Depends(init_supabase_client)],
+    response: Response,
 ):
     result = (
         await supabase.table("project_key")
-        .insert(
+        .upsert(
             {
                 "project_id": id,
                 "key": key.key,
-            }
+            },
+            on_conflict="project_id, key",
+            ignore_duplicates=True,
         )
         .execute()
     )
+
+    if not result.data:
+        response.status_code = 409
+        return
+
     first, *rest = result.data
     assert not rest
     return first

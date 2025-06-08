@@ -4,6 +4,7 @@ import Form from "next/form";
 
 import { Loader2, Plus } from "lucide-react";
 import { decode } from "decode-formdata";
+import { toast } from "sonner";
 import { useCallback, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -25,13 +26,17 @@ function Content({ projectId, closeDialog }: { projectId: string; closeDialog: (
   const action = useCallback(
     async (data: FormData) => {
       const formData = decode(data);
-      await mutation.mutateAsync(
+      const result = await mutation.mutateAsync(
         CreateProjectLocaleInput.parse({
           project_id: projectId,
           locale: formData.locale,
         }),
       );
-      closeDialog();
+      if (result === null)
+        toast.error("Locale already exists", {
+          description: "Cannot create a duplicate locale for this project.",
+        });
+      else closeDialog();
     },
     [projectId, closeDialog, mutation],
   );

@@ -12,8 +12,6 @@ async function get<S extends ZodType>(schema: S, path: string) {
     credentials: "include",
   });
 
-  // TODO: Handle errors.
-
   const json = await response.json();
   return schema.parse(json);
 }
@@ -32,10 +30,12 @@ async function post<S extends ZodType>(schema: S, path: string, body?: BodyInit)
     credentials: "include",
   });
 
-  // TODO: Handle errors.
+  if (response.ok) {
+    const json = await response.json();
+    return schema.parse(json);
+  }
 
-  const json = await response.json();
-  return schema.parse(json);
+  return null;
 }
 
 export const CreateProjectInput = Project.pick({ name: true });

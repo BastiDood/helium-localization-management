@@ -4,6 +4,7 @@ import Form from "next/form";
 
 import { Loader2, Plus } from "lucide-react";
 import { decode } from "decode-formdata";
+import { toast } from "sonner";
 import { useCallback, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -30,8 +31,12 @@ function Content({ id, closeDialog }: ContentProps) {
   const action = useCallback(
     async (data: FormData) => {
       const input = CreateProjectKeyInput.parse(decode(data));
-      await mutation.mutateAsync(input);
-      closeDialog();
+      const result = await mutation.mutateAsync(input);
+      if (result === null)
+        toast.error("Translation key already exists", {
+          description: "Cannot create a duplicate translation key for this project.",
+        });
+      else closeDialog();
     },
     [mutation, closeDialog],
   );
