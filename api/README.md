@@ -25,12 +25,22 @@ uv run uvicorn src.localization_management_api.main:app --reload
 
 ## Running the Unit Tests
 
+Note that the unit tests assume a clean database instance.
+
 ```bash
 # Run all unit tests with duration times.
 uv run pytest --durations=0
 ```
 
-### Example Usage
+## API Endpoints
 
-To get localizations for a project, you can access:
-`http://127.0.0.1:8000/localizations/your_project_id/en_US`
+| Endpoint | Description |
+|--------- |-------------|
+| `POST /api/projects` | Create a new project. |
+| `GET /api/projects` | List all projects. |
+| `POST /api/projects/{id}/locales` | Create a locale for a specific project. |
+| `GET /api/projects/{id}/locales` | List all locales for a specific project. |
+| `POST /api/projects/{id}/keys` | Create a key for a specific project. |
+| `GET /api/projects/{id}/keys` | List all keys for a specific project. |
+| `POST /api/projects/{id}/locales/{locale}/translations` | Bulk upsert translations for a specific project and locale. |
+| `GET /api/projects/{id}/locales/{locale}/translations` | List all translations for a specific project and locale. |
