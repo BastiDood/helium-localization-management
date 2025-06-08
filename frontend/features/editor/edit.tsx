@@ -105,5 +105,12 @@ export function TranslationEditor({ id, translations }: EditTranslationsProps) {
       </div>
     );
 
+  if (keys.length === 0)
+    return (
+      <div className="grow flex items-center justify-center">
+        <p>Get started by adding a new translation key.</p>
+      </div>
+    );
+
   return <TranslationEditorContent keys={keys} registry={registry} />;
 }

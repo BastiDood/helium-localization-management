@@ -14,8 +14,8 @@ test("translation editor content renders no text areas initially", () => {
   expect(inputs).toHaveLength(0);
 
   // Check that the container div exists but is empty of translation inputs
-  const container = screen.container.firstChild;
-  expect(container).toBeDefined();
+  const text = screen.getByText("Get started by adding a new translation key.");
+  expect(text).toBeDefined();
 });
 
 test("translation editor content renders empty text areas when keys are provided", () => {
