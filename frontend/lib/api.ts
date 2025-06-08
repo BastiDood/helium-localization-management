@@ -10,6 +10,7 @@ async function get<S extends ZodType>(schema: S, path: string) {
   const response = await fetch(url, {
     method: "GET",
     credentials: "omit",
+    mode: "cors",
   });
 
   const json = await response.json();
@@ -23,6 +24,7 @@ async function post<S extends ZodType>(schema: S, path: string, body?: BodyInit)
   const response = await fetch(url, {
     method: "POST",
     body,
+    mode: "cors",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
