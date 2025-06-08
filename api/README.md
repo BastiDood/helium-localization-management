@@ -16,13 +16,19 @@ uv python install
 uv sync
 ```
 
-## Running the server
+## Running the Server
 
 ```bash
+# Host the dev server at http://localhost:8000.
 uv run uvicorn src.localization_management_api.main:app --reload
 ```
 
-The API will be available at `http://127.0.0.1:8000`.
+## Running the Unit Tests
+
+```bash
+# Run all unit tests with duration times.
+uv run pytest --durations=0
+```
 
 ### Example Usage
 
