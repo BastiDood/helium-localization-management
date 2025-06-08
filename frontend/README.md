@@ -7,6 +7,12 @@ This project uses `pnpm` as the package manager. This should be handled by [`cor
 [`pnpm`]: https://pnpm.io/
 [`corepack`]: https://github.com/nodejs/corepack
 
+Before starting the project, make sure that you have the following environment variables set via a `.env` file in the Next.js project root.
+
+| **Environment Variable** | **Notes**                                                               |
+| ------------------------ | ----------------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_ORIGIN` | Sets the origin URL which will be used as the base for all API queries. |
+
 ```bash
 # Install project dependencies.
 pnpm install

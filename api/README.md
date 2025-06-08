@@ -18,6 +18,13 @@ uv sync
 
 ## Running the Server
 
+Before starting the project, make sure that you have the following environment variables set via a `.env` file in the FastAPI project root.
+
+| **Environment Variable** | **Notes** |
+| ------------------------ | --------- |
+| `SUPABASE_URL` | The project-specific URL endpoint for the Supabase instance. |
+| `SUPABASE_KEY` | The project-specific secret key for Supabase API interactions. |
+
 ```bash
 # Host the dev server at http://localhost:8000.
 uv run uvicorn src.localization_management_api.main:app --reload
@@ -34,8 +41,8 @@ uv run pytest --durations=0
 
 ## API Endpoints
 
-| Endpoint | Description |
-|--------- |-------------|
+| **Endpoint** | **Description** |
+| ------------ | --------------- |
 | `POST /api/projects` | Create a new project. |
 | `GET /api/projects` | List all projects. |
 | `POST /api/projects/{id}/locales` | Create a locale for a specific project. |
