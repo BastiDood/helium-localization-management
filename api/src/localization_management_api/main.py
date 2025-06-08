@@ -29,7 +29,7 @@ async def init_supabase_client():
     )
 
 
-@app.post("/api/projects")
+@app.post("/api/projects", status_code=201)
 async def create_project(
     project: CreateProject,
     supabase: Annotated[AsyncClient, Depends(init_supabase_client)],
@@ -48,7 +48,7 @@ async def list_projects(
     return result.data
 
 
-@app.post("/api/projects/{id}/locales")
+@app.post("/api/projects/{id}/locales", status_code=201)
 async def create_project_locale(
     locale: CreateProjectLocale,
     id: str,
@@ -88,7 +88,7 @@ async def list_project_locales(
     return result.data
 
 
-@app.post("/api/projects/{id}/keys")
+@app.post("/api/projects/{id}/keys", status_code=201)
 async def create_project_key(
     key: CreateProjectKey,
     id: str,
