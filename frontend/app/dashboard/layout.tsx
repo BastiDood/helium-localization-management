@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { Github } from "lucide-react";
+
 import { type ReactNode, useMemo } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -21,14 +23,15 @@ export default function Layout({ children }: { children: ReactNode }) {
       <footer className="bg-white dark:bg-stone-800 border-t border-stone-200 dark:border-stone-700 mt-auto">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-stone-500 dark:text-stone-400">
           <p>&copy; {year} Helium Contractor Assignment. Good luck!</p>
-          <div className="mt-1">
+          <div className="mt-1 flex items-center justify-center">
+            <Github />
             <Link
               href="https://github.com/BastiDood/helium-localization-management"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline mx-2"
             >
-              GitHub Repository
+              BastiDood/helium-localization-management
             </Link>
           </div>
         </div>
